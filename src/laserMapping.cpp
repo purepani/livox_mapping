@@ -1159,8 +1159,8 @@ int main(int argc, char** argv)
             odomAftMapped.pose.pose.orientation.y = -geoQuat.z;
             odomAftMapped.pose.pose.orientation.z = geoQuat.x;
             odomAftMapped.pose.pose.orientation.w = geoQuat.w;
-            odomAftMapped.pose.pose.position.x = transformAftMapped[3];
-            odomAftMapped.pose.pose.position.y = transformAftMapped[4];
+            odomAftMapped.pose.pose.position.x = -transformAftMapped[3];
+            odomAftMapped.pose.pose.position.y = -transformAftMapped[4];
             odomAftMapped.pose.pose.position.z = transformAftMapped[5];
             odomAftMapped.pose.covariance = {
             0.1,    0.0,    0.0,    0.0,    0.0,    0.0,
