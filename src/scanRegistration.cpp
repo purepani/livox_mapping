@@ -36,7 +36,7 @@
 #include <cmath>
 #include <vector>
 
-#include <opencv/cv.h>
+#include <opencv2/core.hpp>
 #include <pcl_conversions/pcl_conversions.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
@@ -499,9 +499,9 @@ void laserCloudHandler(const sensor_msgs::PointCloud2ConstPtr& laserCloudMsg)
   }
 
 
-  std::cout<<"ALL point: "<<cloudSize<<" outliers: "<< debugnum1 << std::endl
-            <<" break points: "<< debugnum2<<" break feature: "<< debugnum3 << std::endl
-            <<" normal points: "<< debugnum4<<" surf-surf feature: " << debugnum5 << std::endl;
+  // std::cout<<"ALL point: "<<cloudSize<<" outliers: "<< debugnum1 << std::endl
+  //           <<" break points: "<< debugnum2<<" break feature: "<< debugnum3 << std::endl
+  //           <<" normal points: "<< debugnum4<<" surf-surf feature: " << debugnum5 << std::endl;
 
   sensor_msgs::PointCloud2 laserCloudOutMsg;
   pcl::toROSMsg(*laserCloud, laserCloudOutMsg);
@@ -526,7 +526,7 @@ void laserCloudHandler(const sensor_msgs::PointCloud2ConstPtr& laserCloudMsg)
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "scanRegistration");
-  ros::NodeHandle nh;
+  ros::NodeHandle nh("~");
 
   // ros::Subscriber subLaserCloud_for_hk = nh.subscribe<sensor_msgs::PointCloud2>
   //                                 ("/livox/lidar", 2, laserCloudHandler_temp);
@@ -534,16 +534,16 @@ int main(int argc, char** argv)
   //                                ("/livox/lidar_temp", 2);
 
   ros::Subscriber subLaserCloud = nh.subscribe<sensor_msgs::PointCloud2>
-                                  ("/livox/lidar", 100, laserCloudHandler);
+                                  ("input", 100, laserCloudHandler);
   pubLaserCloud = nh.advertise<sensor_msgs::PointCloud2>
-                                 ("/livox_cloud", 20);
+                                 ("cloud", 20);
 
   pubCornerPointsSharp = nh.advertise<sensor_msgs::PointCloud2>
-                                        ("/laser_cloud_sharp", 20);
+                                        ("cloud_sharp", 20);
 
 
   pubSurfPointsFlat = nh.advertise<sensor_msgs::PointCloud2>
-                                       ("/laser_cloud_flat", 20);
+                                       ("cloud_flat", 20);
 
 
   ros::spin();
