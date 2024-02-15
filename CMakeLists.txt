@@ -36,20 +36,31 @@ include_directories(
 
 catkin_package(
   CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs
+  LIBRARIES livox_mapping
   DEPENDS EIGEN3 PCL OpenCV
   INCLUDE_DIRS
 )
 
-add_executable(livox_repub src/livox_repub.cpp)
+add_executable(livox_repub livox_mapping/livox_repub.cpp)
 add_dependencies(livox_repub ${catkin_EXPORTED_TARGETS})
 target_link_libraries(livox_repub ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
 
-add_executable(loam_scanRegistration src/scanRegistration.cpp)
+add_executable(loam_scanRegistration livox_mapping/scanRegistration.cpp)
 target_link_libraries(loam_scanRegistration ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
 
-add_executable(loam_scanRegistration_horizon src/scanRegistration_horizon.cpp)
+add_executable(loam_scanRegistration_horizon livox_mapping/scanRegistration_horizon.cpp)
 target_link_libraries(loam_scanRegistration_horizon ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
 
-add_executable(loam_laserMapping src/laserMapping.cpp)
+add_executable(loam_laserMapping livox_mapping/laserMapping.cpp)
 target_link_libraries(loam_laserMapping ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
 
+install(TARGETS livox_repub loam_scanRegistration loam_scanRegistration_horizon loam_laserMapping 
+	ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+	LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+	RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+	)
+
+install(DIRECTORY
+  launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+	)
